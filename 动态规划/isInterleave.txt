@@ -1,0 +1,30 @@
+/*
+动态转移方程：
+dp[i+1][j] = dp[i][j] && s1[i] == s3[i+j]
+dp[i][j+1] = dp[i][j] && s2[j] == s3[i+j]
+dp[i][j]表示s1的前i个字符和s2的前j个字符能够在s3的前i+j个字符中找到就为true，
+*/
+class Solution {
+        public boolean isInterleave(String s1, String s2, String s3) {
+            int l1 = s1.length(), l2 = s2.length(), l3 = s3.length();
+            //如果s1和s2的长度小于s3或者大于s3直接返回false;
+            if(l1 + l2 != l3)
+                return false;
+			//建立dp数组
+            boolean[][] dp = new boolean[l1+1][l2+1];
+            //当所给s1和s2都为空的时候肯定属于s3，默认为true
+			dp[0][0] = true;
+            for(int i = 0;i<=l1;i++){
+                for(int j = 0;j<=l2;j++){
+                    if(i < l1 && i+j <l3 &&
+                            dp[i][j] && (s1.charAt(i) == s3.charAt(i+j)))
+                        dp[i+1][j] = true;
+                    if(j < l2 && i+j <l3 && dp[i][j] && dp[i][j] &&
+                            (s2.charAt(j) == s3.charAt(i+j)))
+                        dp[i][j+1] = true;
+                }
+            }
+            return dp[l1][l2];
+        }
+    }
+}
