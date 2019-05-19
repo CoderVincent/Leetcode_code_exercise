@@ -1,0 +1,24 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        int len = s.length();
+        boolean[][] dp = new boolean[len][len];
+        String res = new String();
+        for(int j = 0;j<len;j++){
+            for(int i = 0;i<=j;i++){
+				//初始化对角线上的元素
+                if(i == j)
+                    dp[i][j] = true;
+				//初始化对角线后面的一个元素
+                else if(j - i == 1 && (s.charAt(i) == s.charAt(j)))
+                    dp[i][j] = true;
+				//判断两个字符中间是否构成回文
+                else if(dp[i+1][j-1] && (s.charAt(i) == s.charAt(j)))
+                    dp[i][j] = true;
+                //更新最长子串
+                if(dp[i][j] && (j - i + 1) > res.length())
+                    res = s.substring(i,j+1);
+            }
+        }
+        return res;
+    }
+}
